@@ -124,7 +124,7 @@ export default (Grid, { measureImages, background } = {}) =>
       );
 
       return (
-        <span>
+        <div>
           {measuredElements.length > 0 && (
             <Grid {...this.props}>{measuredElements}</Grid>
           )}
@@ -146,7 +146,7 @@ export default (Grid, { measureImages, background } = {}) =>
               },
               elementsToMeasure
             )}
-        </span>
+        </div>
       );
     }
   };

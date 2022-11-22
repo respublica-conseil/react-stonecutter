@@ -107,16 +107,6 @@ gulp.task("webpack", done => {
   );
 });
 
-gulp.task("browser-sync", ["webpack", "demo-html-css"], () => {
-  browserSync.init({
-    notify: false,
-    ghostMode: false,
-    server: {
-      baseDir: "demo/public"
-    }
-  });
-});
-
 gulp.task("demo-html-css", () => {
   const sliderCssFilter = filter("node_modules/rc-slider/assets/index.css", {
     restore: true
@@ -130,6 +120,17 @@ gulp.task("demo-html-css", () => {
     .pipe(gulp.dest("demo/public"))
     .pipe(browserSync.reload({ stream: true }));
 });
+
+
+gulp.task("browser-sync", gulp.series("webpack", "demo-html-css", () => {
+  browserSync.init({
+    notify: false,
+    ghostMode: false,
+    server: {
+      baseDir: "demo/public"
+    }
+  });
+}));
 
 gulp.task("watch", () => {
   gulp.watch("src/js/**/*", e => {
@@ -172,4 +173,4 @@ gulp.task("lint", () =>
     .pipe(eslint.failAfterError())
 );
 
-gulp.task("default", ["browser-sync", "watch"]);
+gulp.task("default", gulp.series("browser-sync", "watch"));
